@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Screening AI base System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: white;
+            font-size: 36px;
+            padding: 20px;
+            background-color: #013a5c;
+            border-radius: 8px;
+        }
+
+        h2 {
+            margin-top: 10px;
+            color: #013a5c;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .feedback-form, .job-suggestion {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        .feedback-form input[type="submit"], .job-suggestion button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+
+        .feedback-form input[type="submit"]:hover, .job-suggestion button:hover {
+            background-color: #0056b3;
+        }
+
+        .job-suggestion button {
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" style="background:#013a5c;color:white;">
+        <h1>Resume Screening AI base System</h1>
+        <p>This system supports TXT , PDF and DOCX files. Upload your resume and it will work on the following:</p>
+        <ul>
+            <li>Resume Categorization</li>
+            <li>Resume Job Recommendation</li>
+            <li>Resume Parsing (Information Extraction)</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>Upload Your Resume</h2>
+        <form action="/pred" method="post" enctype="multipart/form-data">
+            <input type="file" name="resume" accept=".pdf, .txt, .docx" required>
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if message %}
+        <p>{{message}}</p>
+        {% endif %}
+
+        {% if predicted_category %}
+        <br>
+        <hr>
+        <br>
+        <p><b><strong>Category:</strong></b> {{predicted_category}}</p>
+        <p><b><strong>Recommended Job:</strong></b> {{recommended_job}}</p>
+        <br>
+        <hr>
+        <h1>Extracted Information</h1>
+        <p><b><strong>Name:</strong></b> {{name}}</p>
+        <p><b><strong>Phone No:</strong></b> {{phone}}</p>
+        <p><b><strong>Email:</strong></b> {{email}}</p>
+
+        {% if extracted_skills %}
+        <p><b><strong>Skills:</strong></b></p>
+        <ul>
+            {% for skill in extracted_skills %}
+            <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No skills found...</p>
+        {% endif %}
+
+        {% if extracted_education %}
+        <h1>Education:</h1>
+        <ul>
+            {% for edu in extracted_education %}
+            <li>{{ edu }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No education found...</p>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="container feedback-form">
+        <h2>Recruiter Feedback</h2>
+        <form action="/submit_feedback" method="post">
+            <textarea name="feedback" rows="4" placeholder="Provide your feedback or notes about this resume" required></textarea>
+            <input type="submit" value="Submit Feedback">
+        </form>
+    </div>
+
+    <div class="container job-suggestion">
+        <h2>Suggest a Job</h2>
+        <p>If you have a job in mind for this candidate, you can suggest it here:</p>
+        <button>Suggest a Job</button>
+    </div>
+
+</body>
+
+</html>
