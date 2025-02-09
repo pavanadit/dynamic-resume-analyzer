@@ -1,4 +1,4 @@
-END - TO - END PROJECT made by team@ SolsBag
+END - TO - END PROJECT made by team@ SolsBag                                                
 Team Details :                                          
 
 Model-Trained by Dasari Veera Raghavulu                                                                     
